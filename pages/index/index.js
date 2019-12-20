@@ -7,12 +7,6 @@ Page({
     
   },
   onLoad () {
-    console.log('index onLoad')
-  },
-  onShow () {
-    console.log('index onShow')
-  },
-  onReady () {
-    console.log('index onReady')
+    console.log(wx.getSystemInfoSync())
   }
 })

@@ -1,7 +1,7 @@
 .act {
   display: flex;
   align-items: center;
-  border: 1px solid rgba(0, 255, 0, .5);
+  border: 1px solid rgba(0, 0, 255, .3);
   border-radius: 20px;
   box-sizing: border-box;
 }

@@ -10,7 +10,7 @@ Component({
       value: true
     }
   },
-  externalClasses: ['c-title'],
+  externalClasses: ['c-title','c-nav'],
   data: {
     button: wx.getMenuButtonBoundingClientRect(),
     statusBarHeight: wx.getSystemInfoSync().statusBarHeight
