@@ -5,7 +5,11 @@
     "pages/pageA/a",
     "pages/PageB/b"
   ],
+  "usingComponents":{
+    "nav": "/components/nav/index"
+  },
   "window": {
+    "navigationStyle": "custom",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",

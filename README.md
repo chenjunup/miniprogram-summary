@@ -17,3 +17,4 @@ styleIsolation addGlobalClass
 纯数据字段
 抽象节点 componentGenerics
 自定义组件扩展 修改自定义组件定义段的能力 Behavior computed watched
+周期性更新
