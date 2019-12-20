@@ -1,0 +1,1 @@
+<view class="container" style="color:{{redText?'#f00':'#000'}};">slot</view>

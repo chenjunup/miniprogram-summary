@@ -1,4 +1,9 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {},
+  "componentGenerics": {
+    "act": {
+      "default": "/components/act/index"
+    }
+  }
 }

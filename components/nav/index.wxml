@@ -1,8 +1,5 @@
 <view class="container" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
-  <view class="act" style="width:{{button.width}}px;height:{{button.height}}px;padding-left:calc(100vw - {{button.right}}px);">
-    <image class="img back" src="/images/left.svg" />
-    <image class="img home" src="/images/home.svg" />
-  </view>
-  <view class="title">{{title}}</view>
+  <act back="{{back}}" home="{{home}}"></act>
+  <view class="title c-title" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
 </view>
 <view class="placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />

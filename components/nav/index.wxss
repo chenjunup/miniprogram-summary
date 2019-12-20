@@ -12,24 +12,18 @@ page {
   top: 0;
   left: 0;
   box-sizing: border-box;
-}
-
-.act {
-  display: flex;
-  align-items: center;
-}
-
-.img {
-  width: 30rpx;
-  height: 30rpx;
+  background: #fff;
 }
 
 .title {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 19px;
+}
+
+.placeholder {
+  background: #fff;
 }

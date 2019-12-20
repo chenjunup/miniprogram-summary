@@ -1,2 +1,4 @@
-<!--pages/pageA/a.wxml-->
-<text>pages/pageA/a.wxml</text>
+<view class="container">
+  <nav title="pageA" />
+  <navigator url="/pages/PageB/b">pageB</navigator>
+</view>

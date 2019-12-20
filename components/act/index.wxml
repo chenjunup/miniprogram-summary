@@ -1,0 +1,4 @@
+<view class="act {{(back || home)?'':'hidden'}} {{(!back && home)?'center':''}}" style="width:{{button.width}}px;height:{{button.height}}px;margin-left:calc(100vw - {{button.right}}px);">
+  <image wx:if="{{back}}" bind:tap="back" class="img back" src="/images/left.svg" />
+  <image wx:if="{{home}}" bind:tap="home" class="img home" src="/images/home.svg" />
+</view>
