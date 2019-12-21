@@ -3,7 +3,7 @@
   "usingComponents": {},
   "componentGenerics": {
     "act": {
-      "default": "/components/act/index"
+      "default": "../act/index"
     }
   }
 }
