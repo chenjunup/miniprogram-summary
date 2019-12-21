@@ -1,5 +1,7 @@
 <view class="container c-nav" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
-  <act back="{{back}}" home="{{home}}"></act>
+  <act back="{{back}}" home="{{home}}" onBack="{{onBack}}" onHome="{{onHome}}"
+    bind:back="onBack" bind:home="onHome"
+  />
   <view class="title c-title" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
 </view>
 <view class="placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />

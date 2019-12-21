@@ -8,7 +8,9 @@ Component({
     home: {
       type: Boolean,
       value: true
-    }
+    },
+    onBack: Boolean,
+    onHome: Boolean
   },
   externalClasses: ['c-title','c-nav'],
   data: {
@@ -17,6 +19,11 @@ Component({
   },
 
   methods: {
-    
+    onBack () {
+      this.triggerEvent('back')
+    },
+    onHome () {
+      this.triggerEvent('home')
+    }
   }
 })

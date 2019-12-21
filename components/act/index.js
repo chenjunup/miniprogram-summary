@@ -10,7 +10,9 @@ Component({
     home: {
       type: Boolean,
       value: true
-    }
+    },
+    onBack: Boolean,
+    onHome: Boolean
   },
 
   /**
@@ -25,11 +27,19 @@ Component({
    */
   methods: {
     back () {
+      if (this.properties.onBack) {
+        this.triggerEvent('back')
+        return
+      }
       wx.navigateBack({
         data: 1
       })
     },
     home () {
+      if (this.properties.onHome) {
+        this.triggerEvent('home')
+        return
+      }
       const pages = getCurrentPages()
       wx.navigateBack({
         delta: pages.length,
