@@ -1,0 +1,4 @@
+<view class="container">
+  <nav title="首页" back="{{false}}" home="{{false}}" c-nav="nav-border"></nav>
+  <navigator url="/pages/pageA/a">pageA</navigator>
+</view>

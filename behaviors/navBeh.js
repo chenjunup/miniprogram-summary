@@ -10,5 +10,5 @@ export default Behavior({
     },
     onBack: Boolean,
     onHome: Boolean
-  },
+  }
 })

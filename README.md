@@ -68,6 +68,12 @@ const promisify = function (func) {
 
 对wx.request()方法，除了要封装成promise外，还可以在顶层对请求结果做一次全局的异常处理（当然需要与后端定义好异常），以后的请求就可以不用考虑异常了。
 
+## 关于Component和Page
+
+小程序里定义一个页面可以使用Component或者Page构造器。Component构造器可以使用observers(相当于watch)、behaviors(相当于mixins),definitionFilter(定义段过滤器)，组合使用behaviors和definitionFilter还可以使用computed特性。而在Page构造器中可以使用onShareAppMessage()小程序的分享能力，还可以监听页面的下拉刷新、触底、滚动等事件。
+
+我不是很明白为什么小程序要区分Component和Page两种构造页面的方式，更致命的是Component和Page分别有各自独特的能力，这就带给我很大的困扰，要选择一种就要丧失另外的能力。如果我希望同时使用behaviors和onShareAppMessage()就变得很麻烦，必须同时定义一个component和page，把逻辑都写在component里，在page里引入component。
+
 ## 一些少见但可能很有用的特性
 
 ### WXS函数绑定事件
