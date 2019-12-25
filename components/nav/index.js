@@ -1,16 +1,9 @@
+import navBeh from '../../behaviors/navBeh'
+
 Component({
+  behaviors: [navBeh],
   properties: {
-    title: String,
-    back: {
-      type: Boolean,
-      value: true
-    },
-    home: {
-      type: Boolean,
-      value: true
-    },
-    onBack: Boolean,
-    onHome: Boolean
+    title: String
   },
   externalClasses: ['c-title','c-nav'],
   data: {

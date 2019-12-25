@@ -1,19 +1,10 @@
+import navBeh from '../../behaviors/navBeh'
+
 Component({
   /**
    * 组件的属性列表
    */
-  properties: {
-    back: {
-      type: Boolean,
-      value: true
-    },
-    home: {
-      type: Boolean,
-      value: true
-    },
-    onBack: Boolean,
-    onHome: Boolean
-  },
+  behaviors: [navBeh],
 
   /**
    * 组件的初始数据
