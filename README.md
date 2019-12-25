@@ -46,6 +46,28 @@ app.wxss中的样式会对所有页面生效，对组件不生效。因此，可
 
 ## 使用Promise
 
+小程原生API不会返回promise，而是通过传递回调函数的方式处理结果。可以定义一个promisify方法，让原生API返回promise，类似于node.js中的util.promisify()方法。
+
+```javascript
+const promisify = function (func) {
+  return function (param={}) {
+    return new Promise((resolve, reject)=>{
+      param.success = (res) => {
+        resolve(res)
+      }
+      param.fail = (err) => {
+        reject(err)
+      }
+      func(param)
+    })
+  }
+}
+```
+
+### 定义全局异常处理
+
+对wx.request()方法，除了要封装成promise外，还可以在顶层对请求结果做一次全局的异常处理（当然需要与后端定义好异常），以后的请求就可以不用考虑异常了。
+
 ## 一些少见但可能很有用的特性
 
 ### WXS函数绑定事件
