@@ -1,9 +1,5 @@
-page {
-  width: 100%;
-}
-
 .container {
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,6 +9,37 @@ page {
   left: 0;
   box-sizing: border-box;
   background: #fff;
+}
+
+.act {
+  display: flex;
+  align-items: center;
+  border: 1px solid #1296db;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.hidden {
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -100;
+}
+
+.center {
+  justify-content: center;
+}
+
+.img {
+  width: 25px;
+  height: 25px;
+}
+
+.back {
+  padding: 0 8px 0 10px;
+}
+
+.home {
+  padding: 0 8px;
 }
 
 .title {

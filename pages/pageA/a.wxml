@@ -1,4 +1,5 @@
-<view class="container">
-  <Title title="pageA" onBack="{{true}}" bind:back="onBack"/>
-  <navigator url="/pages/PageB/b">pageB</navigator>
-</view>
+<Page title="pageA" onBack="{{onBack}}">
+  <view class="container">
+    <navigator url="/pages/PageB/b">pageB</navigator>
+  </view>
+</Page>

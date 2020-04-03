@@ -1,4 +1,7 @@
-<view class="container">
-  <Title title="首页" back="{{false}}" home="{{false}}" c-nav="nav-border"></Title>
-  <navigator url="/pages/pageA/a">pageA</navigator>
-</view>
+<Page title="首页" back="{{false}}" home="{{false}}"
+  title-bar="nav-border"
+>
+  <view class="container">
+    <navigator url="/pages/pageA/a">pageA</navigator>
+  </view>
+</Page>

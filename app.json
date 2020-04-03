@@ -6,7 +6,7 @@
     "pages/PageB/b"
   ],
   "usingComponents":{
-    "Title": "/components/title/index"
+    "Page": "/components/page/page"
   },
   "window": {
     "navigationStyle": "custom",

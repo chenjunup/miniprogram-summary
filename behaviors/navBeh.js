@@ -1,5 +1,6 @@
 export default Behavior({
   properties: {
+    customAct: Boolean,
     back: {
       type: Boolean,
       value: true
@@ -8,7 +9,11 @@ export default Behavior({
       type: Boolean,
       value: true
     },
-    onBack: Boolean,
-    onHome: Boolean
+    onBack: {
+      type: Function
+    },
+    onHome: {
+      type: Function
+    }
   }
 })

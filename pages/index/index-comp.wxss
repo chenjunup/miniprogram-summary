@@ -1,1 +1,1 @@
-/* pages/index/index-comp.wxss */
+@import '../../global.wxss';

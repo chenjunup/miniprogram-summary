@@ -1,7 +1,9 @@
-<view class="container c-nav" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
-  <act back="{{back}}" home="{{home}}" onBack="{{onBack}}" onHome="{{onHome}}"
-    bind:back="onBack" bind:home="onHome"
-  />
-  <view class="title c-title" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
+<view class="container title-bar" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
+  <slot wx:if="{{customAct}}" name="act"></slot>
+  <view wx:else class="act title-act {{(back || home)?'':'hidden'}} {{(!back && home)?'center':''}}" style="width:{{button.width}}px;height:{{button.height}}px;margin-left:calc(100vw - {{button.right}}px);">
+    <image wx:if="{{back}}" bind:tap="back" class="img back" src="/images/left.svg" />
+    <image wx:if="{{home}}" bind:tap="home" class="img home" src="/images/home.svg" />
+  </view>
+  <view class="title title-txt" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
 </view>
-<view class="placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />
+<view class="placeholder title-placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />

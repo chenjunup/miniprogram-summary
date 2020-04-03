@@ -1,3 +1,4 @@
-<view class="container">
-  <Title title="pageB" />
-</view>
+<Page title="pageB">
+  <view class="container">
+  </view>
+</Page>

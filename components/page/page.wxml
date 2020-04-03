@@ -1,0 +1,15 @@
+<view class="page-container page">
+  <Title 
+    title="{{title}}"
+    title-bar="title-bar"
+    title-act="title-act"
+    title-txt="title-txt"
+    title-placeholder="title-placeholder"
+    customAct="{{customAct}}"
+    back="{{back}}"
+    home="{{home}}"
+    onBack="{{onBack}}"
+    onHome="{{onHome}}"
+  />
+  <slot></slot>
+</view>

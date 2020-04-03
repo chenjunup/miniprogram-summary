@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "Title": "/components/title/index"
+  }
+}
