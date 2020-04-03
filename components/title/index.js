@@ -29,12 +29,11 @@ Component({
         return
       }
       const pages = getCurrentPages()
-      const {route:url} = pages[pages.length-1]
       wx.navigateBack({
         delta: pages.length,
         fail: ()=>{
           wx.switchTab({
-            url
+            url: '/pages/index/index'
           })
         }
       })

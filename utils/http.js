@@ -2,52 +2,73 @@ import { baseUrl } from '../config'
 
 const tips = {
   // 默认错误
-  1: '出现一个错误，请稍后重试',
+  1: '网络错误',
   // 具体自定义的业务错误码
   3000: '不存在'
 }
 
-class Http {
-  _showError (errCode) {
-    if (!Object.keys(tips).includes(errCode)) {
-      errCode = 1
-    }
-    wx.showToast({
-      title: tips[errCode],
-      icon: 'none',
-      duration: 2000
-    })
+const _showError = (data) => {
+  let { error, msg } = data
+  let title;
+  if (!Object.keys(tips).includes(error)) {
+    error = 1
   }
-  request ({url, data={}, method='GET'}) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: baseUrl + url,
-        data,
-        method,
-        header: {
-          'Content-Type': 'application/json'
-        },
-        success: (res) => {
-          // http状态码 
-          // 可能有很多的 api 无论请求成功与否 都返回 http 状态码 200
-          // 而是通过 data 里的自定义 errCode 去判断请求成功与否
-          const statusCode = res.statusCode.toString()
-          if (statusCode.startsWith(2)) {
-            resolve(res.data)
+  title = tips[error]
+  if (msg) title = msg
+  wx.showToast({
+    title,
+    duration: 2000,
+    image: '/images/warn.png'
+  })
+}
+export const request = ({url, data={}, setUpUrl, method='GET'}, noRefetch=false) => {
+  if (!setUpUrl) url = baseUrl + url
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url,
+      data,
+      method,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      success: (res) => {
+        const statusCode = res.statusCode
+        if (statusCode >= 200 && statusCode < 310) {
+          if (res.data.msg) {
+            _showError(res.data)
           }
-          else {
-            // 即使在顶层处理了异常 还是要把异常 抛出去
-            // 不然在调用方 promise会处于< pending >状态 代码不会往下走了
-            reject()
-            this._showError(res.data.errCode)
+          resolve(res.data.data)
+        } else if (statusCode === 401) {
+          if (!noRefetch) {
+            
           }
-        },
-        fail: (err) => {
-          reject()
-          this._showError()
+        } else {
+          reject(null)
+          _showError()
         }
-      })
+      },
+      fail: (err) => {
+        reject(err.message)
+        _showError()
+      }
     })
+  })
+}
+
+export const get = (url) => {
+  return request({url})
+}
+export const post = (url,data) => {
+  return request({url, data, method:'POST'})
+}
+
+class HTTP {
+  constructor ({prefix}={}) {
+    this.prefix = prefix
+  }
+  request({url, data={}, method='GET'}) {
+    if (this.prefix) url = this.prefix + url
+    return request({url, data, method})
   }
   get (url) {
     return this.request({url})
@@ -57,4 +78,4 @@ class Http {
   }
 }
 
-export default Http
+export default HTTP

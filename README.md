@@ -6,7 +6,7 @@
 
 app.wxss中的样式会对所有页面生效，对组件不生效
 
-> 在微信小程序中，区分页面和组件的依据是`是否配置在app.json的pages中`，并不是有由使用的构造器（Page/Component）决定的
+> 在微信小程序中，区分页面和组件的依据是`是否配置在app.json的pages中`，并不是由使用的构造器（Page/Component）决定的
 
 因此，可以在app.wxss中放一些常用的预定义样式类；更好的做法是新建一个global.wxss然后在app.wxss中引入，这样组件也可以自主引入预定义样式
 
@@ -53,49 +53,68 @@ app.wxss中的样式会对所有页面生效，对组件不生效
 
 实际开发中，如果在组件中使用了这些选择器，在用真机调试的时候会有警告信息，但是样式的实际效果是不确定的，并不一定不生效；所以，最好还是在组建中避免使用这些选择器
 
+## 插槽（slot）和抽象节点
+
+小程序支持slot，但是不支持默认插槽
+也就是说`可以`这样写：
+
+```wxml
+<view class="container">
+  <slot></slot>
+  <slot name="anthor-slot"></slot>
+</view>
+```
+
+但是`不能`这样写：
+
+```wxml
+<view class="container">
+  <slot>
+    <view>如果外部没有传入slot，默认使用这个节点</view>
+  </slot>
+</view>
+```
+
+所以，为了实现默认插槽的功能，就必须这样写：
+
+```wxml
+<view class="container">
+  <slot wx:if="{{useSlot}}"></slot>
+  <view wx:else>如果外部没有传入slot，默认使用这个节点</view>
+</view>
+```
+
+需要增加一个变量去控制插槽的显示
+
+还有一种方案是[抽象节点](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/generics.html)，这个功能如果是用在纯容器组件上还行，但是如果组件需要传参就没办法了，所以不推荐使用这个功能
+
 ## 自定义标题栏
 
-使用自定义标题栏，除了可以自定义标题栏的样式外，还可以对页面路由进行更细粒度的控制，类似于路由钩子，而且在一些从诸如分享进入小程序的场景，默认的标题栏是无法回到首页的，如果是自定义标题栏就可以添加一个回到首页的按钮。
+使用自定义标题栏，除了可以自定义标题栏的样式外，还可以对页面路由进行更细粒度的控制，类似于路由钩子，而且在一些从诸如分享进入小程序的场景，默认的标题栏是无法回到首页的，如果是自定义标题栏就可以添加一个回到首页的按钮
 
-下面是一个标题栏自定义组件，其中`button=wx.getMenuButtonBoundingClientRect()`是右上角胶囊按钮的布局信息，`statusBarHeight=wx.getSystemInfoSync().statusBarHeight`是系统状态栏的高度。
-
-```wxml
-<view class="container c-nav" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
-  <act back="{{back}}" home="{{home}}" onBack="{{onBack}}" onHome="{{onHome}}"
-    bind:back="onBack" bind:home="onHome"
-  />
-  <view class="title c-title" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
-</view>
-<view class="placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />
-```
-
-- 抽象节点和slot插槽
-
-中间的`<act ... />`是一个自定义组件，它占据了抽象节点的默认位置，在调用的时候可以指定一个组件覆盖`act`组件，当然也可以不传就以`act`显示。
-
-本来最好的方式是像下面这样用使用插槽。但是小程序不支持这种使用默认插槽的方式，抽象节点的方式虽然也能实现类似功能，但写起来很繁琐而且在指定抽象节点使用的组件时无法向组件传参。
+下面是一个标题栏自定义组件，其中`button=wx.getMenuButtonBoundingClientRect()`是右上角胶囊按钮的布局信息，`statusBarHeight=wx.getSystemInfoSync().statusBarHeight`是系统状态栏的高度
 
 ```wxml
-<view class="container c-nav" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
-  <slot>
-    <-- act组件的内容 -->
-    <view class="act {{(back || home)?'':'hidden'}} {{(!back && home)?'center':''}}" style="width:{{button.width}}px;height:{{button.height}}px;margin-left:calc(100vw - {{button.right}}px);">
-      <image wx:if="{{back}}" bind:tap="back" class="img back" src="/images/left.svg" />
-      <image wx:if="{{home}}" bind:tap="home" class="img home" src="/images/home.svg" />
-    </view>
-  </slot>
-  <view class="title c-title" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
+<view class="container title-bar" style="padding:{{button.top}}px calc(100% - {{button.left}}px) {{button.top-statusBarHeight}}px 0;">
+  <slot wx:if="{{customAct}}" name="act"></slot>
+  <view wx:else class="act title-act {{(back || home)?'':'hidden'}} {{(!back && home)?'center':''}}" style="width:{{button.width}}px;height:{{button.height}}px;margin-left:calc(100vw - {{button.right}}px);">
+    <image wx:if="{{back}}" bind:tap="back" class="img back" src="/images/left.svg" />
+    <image wx:if="{{home}}" bind:tap="home" class="img home" src="/images/home.svg" />
+  </view>
+  <view class="title title-txt" style="height:{{button.height}}px;line-height:{{button.height}}px;">{{title}}</view>
 </view>
-<view class="placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />
+<view class="placeholder title-placeholder" style="height:{{button.height + 2*(button.top-statusBarHeight) + statusBarHeight}}px;" />
 ```
 
-- 外部样式类
 
-`c-nav`和`c-title`是预定义的2个外部样式类，需要在js中声明`externalClass`，在调用的时候可以指定一个外部类名覆盖组件内样式，但需要注意样式权重问题。
+
+## 定义页面布局容器
+
+
 
 ## 使用Promise
 
-小程原生API不会返回promise，而是通过传递回调函数的方式处理结果。可以定义一个promisify方法，让原生API返回promise，类似于node.js中的util.promisify()方法。
+小程原生API不会返回promise，而是通过传递回调函数的方式处理结果。可以定义一个promisify方法，让原生API返回promise，类似于node.js中的util.promisify()方法
 
 ```javascript
 const promisify = function (func) {
@@ -113,7 +132,7 @@ const promisify = function (func) {
 }
 ```
 
-### 定义全局异常处理
+### 封装request
 
 对wx.request()方法，除了要封装成promise外，还可以在顶层对请求结果做一次全局的异常处理（当然需要与后端定义好异常），以后的请求就可以不用考虑异常了。
 
@@ -121,7 +140,7 @@ const promisify = function (func) {
 
 小程序里定义一个页面可以使用Component或者Page构造器。Component构造器可以使用observers(相当于watch)、behaviors(相当于mixins),definitionFilter(定义段过滤器)，组合使用behaviors和definitionFilter还可以使用computed特性。而在Page构造器中可以使用onShareAppMessage()小程序的分享能力，还可以监听页面的下拉刷新、触底、滚动等事件。
 
-我不是很明白为什么小程序要区分Component和Page两种构造页面的方式，更致命的是Component和Page分别有各自独特的能力，这就带给我很大的困扰，要选择一种就要丧失另外的能力。如果我希望同时使用behaviors和onShareAppMessage()就变得很麻烦，必须同时定义一个component和page，把逻辑都写在component里，在page里引入component。
+我不是很明白为什么小程序要区分Component和Page两种构造页面的方式，更致命的是Component和Page分别有各自独特的能力，这就带给我很大的困扰，要选择一种就要丧失另外的能力。如果我希望同时使用behaviors和onShareAppMessage()就变得很麻烦，必须同时定义一个component和page，把逻辑都写在component里，在page里引入component
 
 ## 一些少见但可能很有用的特性
 
